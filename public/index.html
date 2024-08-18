@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Socket Trigger</title>
+    <style>
+      body {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        background-color: #f0f0f0; /* Optional: set a background color */
+      }
+
+      .button {
+        padding: 20px 40px;
+        font-size: 24px;
+        color: white; /* Button text color */
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transition: background-color 0.3s ease;
+        margin: 10px; /* Add some margin between buttons */
+      }
+
+      #startButton {
+        background-color: #007bff; /* Start button background color */
+      }
+
+      #startButton:hover {
+        background-color: #0056b3; /* Start button hover color */
+      }
+
+      #startButton:active {
+        background-color: #003f7f; /* Start button active color */
+      }
+
+      #stopButton {
+        background-color: #ff0000; /* Stop button background color */
+      }
+
+      #stopButton:hover {
+        background-color: #cc0000; /* Stop button hover color */
+      }
+
+      #stopButton:active {
+        background-color: #990000; /* Stop button active color */
+      }
+    </style>
+  </head>
+  <body>
+    <button id="startButton" class="button">Restart</button>
+    <button id="stopButton" class="button">Stop</button>
+
+    <script
+      src="https://cdn.socket.io/4.7.5/socket.io.min.js"
+      integrity="sha384-2huaZvOR9iDzHqslqwpR87isEmrfxqyWOF7hr7BY6KG0+hVKLoEXMPUJw3ynWuhO"
+      crossorigin="anonymous"
+    ></script>
+    <script>
+      const socket = io(); // Connect to the same origin (Vercel)
+
+      socket.on("connect", () => {
+        console.log("Connected to server");
+      });
+
+      socket.on("connect_error", (error) => {
+        console.error("Connection error:", error);
+      });
+
+      document.getElementById("startButton").addEventListener("click", () => {
+        socket.emit("start");
+        console.log("Restart command sent!");
+      });
+
+      document.getElementById("stopButton").addEventListener("click", () => {
+        socket.emit("stop");
+        console.log("Stop command sent!");
+      });
+    </script>
+  </body>
+</html>
